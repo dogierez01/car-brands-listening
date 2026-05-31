@@ -151,7 +151,6 @@
             cursor: default;
         }
 
-        /* Results Screen Styles */
         .results-container {
             display: none;
             text-align: center;
@@ -230,11 +229,11 @@
 </div>
 
 <script>
-    // Audio URLs updated to perfectly match the exact naming convention shown in the repo screenshot
+    // FIX APPLIED: Added "./" and replaced spaces with "%20" to force exact URL matching
     const quizData = [
         {
             brand: "Alfa Romeo",
-            audioUrl: "Alfa Romeo.mp3", 
+            audioUrl: "./Alfa%20Romeo.mp3", 
             questions: [
                 { q: "According to the text, why is the triangular front grille important for Alfa Romeo?", options: ["It makes the engine run faster during races.", "It helps people instantly spot and identify the brand on the road.", "It protects the engine from damage better than a square grille."], answer: 1 },
                 { q: "What can we infer about the text describing Alfa Romeo cars as looking 'like art'?", options: ["They are only meant to be looked at in museums.", "Great care and creativity went into how the outside looks.", "They are painted with many different colors by artists."], answer: 1 },
@@ -255,7 +254,7 @@
         },
         {
             brand: "Audi",
-            audioUrl: "Audi.mp3",
+            audioUrl: "./Audi.mp3",
             questions: [
                 { q: "What is the historical meaning behind the four silver rings in Audi's logo?", options: ["They represent the four wheels of a standard car.", "They show that four older separate companies came together as one.", "They stand for the four seasons of the year when driving is safe."], answer: 1 },
                 { q: "The text describes the Quattro system as an 'invention.' What does 'invention' mean in this context?", options: ["A completely new creation or system that did not exist before.", "A type of heavy rain or winter storm.", "An expensive material used inside the car seats."], answer: 0 },
@@ -276,7 +275,7 @@
         },
         {
             brand: "Bentley",
-            audioUrl: "Bentley.mp3",
+            audioUrl: "./Bentley.mp3",
             questions: [
                 { q: "What unique combination makes Bentley cars famous around the world?", options: ["Being extremely small but very loud.", "Being highly comfortable while also possessing great speed.", "Being very cheap to buy but difficult to fix."], answer: 1 },
                 { q: "The text notes that almost everything inside a Bentley is 'made by hand.' What does this tell us?", options: ["The cars take a very short time to build.", "No machines are used to build the metal engines.", "Human workers carefully craft the details with high skill."], answer: 2 },
@@ -297,154 +296,9 @@
         },
         {
             brand: "BMW",
-            audioUrl: "BMW.mp3",
+            audioUrl: "./BMW.mp3",
             questions: [
                 { q: "What did BMW produce before they ever started manufacturing cars?", options: ["Farm equipment and tractors.", "Engines for airplanes.", "Racing bicycles for kids."], answer: 1 },
                 { q: "How does BMW's past history explain the design of their blue and white logo?", options: ["It looks like a spinning airplane propeller against the clear sky.", "It represents the colors of the German national football team flag.", "It shows a map of the beautiful city of Milan."], answer: 0 },
                 { q: "If BMW cars are nicknamed the 'ultimate driving machines,' what does 'ultimate' mean here?", options: ["The most basic and simple option available.", "The highest, greatest, or best example of its kind.", "The oldest and most historical version."], answer: 1 },
-                { q: "Why is the interior of a BMW described as 'perfectly organized for the driver'?", options: ["It has plenty of space to store a lot of groceries.", "All buttons and controls are placed exactly where the driver can easily reach them.", "It changes its shape depending on who is driving."], answer: 1 },
-                { q: "What is BMW's primary goal with their new electric vehicles?", options: ["To make cars that look exactly like airplanes.", "To offer exciting driving experiences without using gasoline to protect nature.", "To build cars that can only be driven on sunny days."], answer: 1 },
-                { q: "The name BMW translates to 'Bavarian Motor Works.' What does 'Bavarian' refer to?", options: ["The name of the man who invented the airplane engine.", "The specific region in Germany where the company started.", "A type of fuel that does not damage the environment."], answer: 1 },
-                { q: "What combination of styles makes business professionals choose a BMW?", options: ["It looks incredibly cheap and simple at the same time.", "It looks highly intelligent, professional, and athletic/sporty.", "It looks extremely giant and colorful."], answer: 1 },
-                { q: "What kind of vehicles does BMW produce according to the text?", options: ["Only small city hatchbacks and delivery vans.", "Comfortable family sedans, large SUVs, and fast sports cars.", "Only public buses and heavy military trucks."], answer: 1 },
-                { q: "What does the text imply about someone who 'enjoys spending time on the road'?", options: ["They are a person who loves the pure experience of traveling and driving.", "They are a construction worker who fixes broken streets.", "They are someone who constantly gets stuck in traffic."], answer: 0 },
-                { q: "How does the text describe the sound environment inside a moving BMW?", options: ["Quite loud and intense because of the powerful engine.", "Very quiet, allowing for a focused and relaxed ride.", "Filled with continuous electronic warning alarms."], answer: 1 },
-                { q: "True or False: The letters BMW stand for 'British Motor Works' in English.", options: ["True", "False"], answer: 1 },
-                { q: "True or False: The company logo uses the colors blue and white.", options: ["True", "False"], answer: 0 },
-                { q: "True or False: BMW's new electric cars are designed to be calm and boring to save battery power.", options: ["True", "False"], answer: 1 },
-                { q: "True or False: The text states that BMW focuses heavily on high-quality materials and modern tech.", options: ["True", "False"], answer: 0 },
-                { q: "True or False: BMW originally built car engines before moving on to airplane parts.", options: ["True", "False"], answer: 1 }
-            ]
-        }
-    ];
-
-    let currentAudio = new Audio();
-    let isPlaying = false;
-    
-    // Score tracking variables
-    let totalQuestions = 0;
-    let questionsAnswered = 0;
-    let correctAnswers = 0;
-
-    // Build the Main Menu
-    const carList = document.getElementById('car-list');
-    quizData.forEach((car, index) => {
-        const btn = document.createElement('button');
-        btn.className = 'car-btn';
-        btn.innerText = `🎧 ${car.brand} Challenge`;
-        btn.onclick = () => loadQuiz(index);
-        carList.appendChild(btn);
-    });
-
-    function loadQuiz(index) {
-        const currentCar = quizData[index];
-        document.getElementById('home-screen').classList.remove('active');
-        document.getElementById('quiz-screen').classList.add('active');
-        document.getElementById('quiz-title').innerText = currentCar.brand;
-        
-        // Hide results screen if it was open from a previous quiz
-        document.getElementById('results-section').style.display = 'none';
-        
-        // Reset scores
-        totalQuestions = currentCar.questions.length;
-        questionsAnswered = 0;
-        correctAnswers = 0;
-
-        // Setup Audio
-        currentAudio.src = currentCar.audioUrl;
-        
-        // Build Questions
-        const container = document.getElementById('questions-container');
-        container.innerHTML = ''; 
-
-        currentCar.questions.forEach((q, qIndex) => {
-            const block = document.createElement('div');
-            block.className = 'question-block';
-            
-            const title = document.createElement('div');
-            title.className = 'question-text';
-            title.innerText = `${qIndex + 1}. ${q.q}`;
-            block.appendChild(title);
-
-            q.options.forEach((opt, optIndex) => {
-                const optBtn = document.createElement('button');
-                optBtn.className = 'option-btn';
-                optBtn.innerText = opt;
-                optBtn.onclick = () => checkAnswer(optBtn, block, optIndex, q.answer);
-                block.appendChild(optBtn);
-            });
-
-            container.appendChild(block);
-        });
-    }
-
-    function checkAnswer(btn, block, selectedIndex, correctIndex) {
-        const buttons = block.querySelectorAll('.option-btn');
-        buttons.forEach(b => b.disabled = true); // Lock the question once answered
-
-        questionsAnswered++;
-
-        if (selectedIndex === correctIndex) {
-            btn.classList.add('selected-correct');
-            btn.innerText = "✅ " + btn.innerText;
-            correctAnswers++;
-        } else {
-            btn.classList.add('selected-wrong');
-            btn.innerText = "❌ " + btn.innerText;
-            buttons[correctIndex].classList.add('selected-correct'); 
-        }
-
-        // Check if all questions are answered
-        if (questionsAnswered === totalQuestions) {
-            showResults();
-        }
-    }
-
-    function showResults() {
-        const resultsSection = document.getElementById('results-section');
-        const percentage = Math.round((correctAnswers / totalQuestions) * 100);
-        const wrongAnswers = totalQuestions - correctAnswers;
-
-        document.getElementById('score-percentage').innerText = `${percentage}%`;
-        document.getElementById('score-correct').innerText = correctAnswers;
-        document.getElementById('score-wrong').innerText = wrongAnswers;
-        document.getElementById('score-total').innerText = totalQuestions;
-
-        // Change color based on score
-        const percentageElement = document.getElementById('score-percentage');
-        if (percentage >= 80) {
-            percentageElement.style.color = 'var(--correct)';
-        } else if (percentage >= 50) {
-            percentageElement.style.color = '#eab308'; // Yellow/Orange
-        } else {
-            percentageElement.style.color = 'var(--wrong)';
-        }
-
-        resultsSection.style.display = 'block';
-        
-        // Auto-scroll to results
-        setTimeout(() => {
-            resultsSection.scrollIntoView({ behavior: 'smooth' });
-        }, 300);
-    }
-
-    function playAudio() {
-        currentAudio.play().catch(e => alert("Audio could not be loaded! Please make sure the filename exactly matches what is in your repository. Error: " + e.message));
-        isPlaying = true;
-    }
-
-    function stopAudio() {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        isPlaying = false;
-    }
-
-    function goHome() {
-        stopAudio();
-        document.getElementById('quiz-screen').classList.remove('active');
-        document.getElementById('home-screen').classList.add('active');
-    }
-</script>
-
-</body>
-</html>
+                { q: "Why is the interior of a BMW described as 'perfectly organized for the driver'?", options: ["It has plenty of space to store a lot of groceries.", "All buttons and controls are placed exactly where the driver can easily reach them.", "It changes its shape depending on who
