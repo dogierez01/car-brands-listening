@@ -58,14 +58,25 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .car-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 400px) {
+            .car-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
         .car-btn {
             width: 100%;
-            padding: 20px;
-            margin-bottom: 16px;
+            padding: 16px;
             border: 2px solid var(--primary);
-            border-radius: 16px;
+            border-radius: 14px;
             background: #f0f9ff;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             color: var(--primary-dark);
             cursor: pointer;
@@ -200,8 +211,8 @@
 <div class="app-container">
     <div id="home-screen" class="screen active">
         <h1>Deniz's Listening Challenge</h1>
-        <p style="text-align: center; margin-bottom: 24px; color: #64748b; font-size: 16px;">Select a car brand, listen carefully, and beat the quiz!</p>
-        <div id="car-list"></div>
+        <p style="text-align: center; margin-bottom: 24px; color: #64748b; font-size: 16px;">Select a brand, listen carefully, and beat the quiz!</p>
+        <div id="car-list" class="car-grid"></div>
     </div>
 
     <div id="quiz-screen" class="screen">
@@ -229,7 +240,6 @@
 </div>
 
 <script>
-    // FIX APPLIED: Added "./" and replaced spaces with "%20" to force exact URL matching
     const quizData = [
         {
             brand: "Alfa Romeo",
@@ -301,4 +311,394 @@
                 { q: "What did BMW produce before they ever started manufacturing cars?", options: ["Farm equipment and tractors.", "Engines for airplanes.", "Racing bicycles for kids."], answer: 1 },
                 { q: "How does BMW's past history explain the design of their blue and white logo?", options: ["It looks like a spinning airplane propeller against the clear sky.", "It represents the colors of the German national football team flag.", "It shows a map of the beautiful city of Milan."], answer: 0 },
                 { q: "If BMW cars are nicknamed the 'ultimate driving machines,' what does 'ultimate' mean here?", options: ["The most basic and simple option available.", "The highest, greatest, or best example of its kind.", "The oldest and most historical version."], answer: 1 },
-                { q: "Why is the interior of a BMW described as 'perfectly organized for the driver'?", options: ["It has plenty of space to store a lot of groceries.", "All buttons and controls are placed exactly where the driver can easily reach them.", "It changes its shape depending on who
+                { q: "Why is the interior of a BMW described as 'perfectly organized for the driver'?", options: ["It has plenty of space to store a lot of groceries.", "All buttons and controls are placed exactly where the driver can easily reach them.", "It changes its shape depending on who is driving."], answer: 1 },
+                { q: "What is BMW's primary goal with their new electric vehicles?", options: ["To make cars that look exactly like airplanes.", "To offer exciting driving experiences without using gasoline to protect nature.", "To build cars that can only be driven on sunny days."], answer: 1 },
+                { q: "The name BMW translates to 'Bavarian Motor Works.' What does 'Bavarian' refer to?", options: ["The name of the man who invented the airplane engine.", "The specific region in Germany where the company started.", "A type of fuel that does not damage the environment."], answer: 1 },
+                { q: "What combination of styles makes business professionals choose a BMW?", options: ["It looks incredibly cheap and simple at the same time.", "It looks highly intelligent, professional, and athletic/sporty.", "It looks extremely giant and colorful."], answer: 1 },
+                { q: "What kind of vehicles does BMW produce according to the text?", options: ["Only small city hatchbacks and delivery vans.", "Comfortable family sedans, large SUVs, and fast sports cars.", "Only public buses and heavy military trucks."], answer: 1 },
+                { q: "What does the text imply about someone who 'enjoys spending time on the road'?", options: ["They am a person who loves the pure experience of traveling and driving.", "They am a construction worker who fixes broken streets.", "They am someone who constantly gets stuck in traffic."], answer: 0 },
+                { q: "How does the text describe the sound environment inside a moving BMW?", options: ["Quite loud and intense because of the powerful engine.", "Very quiet, allowing for a focused and relaxed ride.", "Filled with continuous electronic warning alarms."], answer: 1 },
+                { q: "True or False: The letters BMW stand for 'British Motor Works' in English.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The company logo uses the colors blue and white.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: BMW's new electric cars are designed to be calm and boring to save battery power.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The text states that BMW focuses heavily on high-quality materials and modern tech.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: BMW originally built car engines before moving on to airplane parts.", options: ["True", "False"], answer: 1 }
+            ]
+        },
+        {
+            brand: "Bugatti",
+            audioUrl: "./Bugatti.mp3",
+            questions: [
+                { q: "The text describes Bugatti as an 'exclusive' sports car. What does 'exclusive' mean here?", options: ["It is restricted to a very small, select group of people who can afford it.", "It is completely excluded from being driven on public roads.", "It is a car that does not include modern safety technology."], answer: 0 },
+                { q: "What point is the author making when they say the Bugatti looks like a 'flying piece of art'?", options: ["The car has literal wings attached to its doors.", "The design is incredibly smooth, aerodynamic, and beautiful to look at.", "The car is so lightweight that it hovers slightly above the ground."], answer: 1 },
+                { q: "Why does a new Bugatti cost several million dollars?", options: ["The French government puts a massive tax on the brand.", "They use huge engines and are entirely hand-built with the absolute best materials.", "The cars are painted with real gold and silver."], answer: 1 },
+                { q: "What does the phrase 'no limits on money or time' suggest about Bugatti's engineers?", options: ["They are lazy and take too long to finish building the cars.", "They are allowed to spend whatever it takes to build the ultimate, perfect machine.", "They frequently run out of money and have to stop working."], answer: 1 },
+                { q: "If the engine has sixteen cylinders, what does this immediately tell the reader?", options: ["It is highly fuel-efficient and saves money on gas.", "It is massive and produces a shocking amount of power compared to normal cars.", "It requires sixteen different people to help build it."], answer: 1 },
+                { q: "Who originally started the company?", options: ["A famous athlete who loved driving fast.", "A clever designer named Ettore Bugatti.", "A wealthy French king."], answer: 1 },
+                { q: "What is owning a Bugatti a 'true symbol' of?", options: ["Extreme wealth and ultimate financial success.", "A desire to protect the natural environment.", "Practical, sensible family planning."], answer: 0 },
+                { q: "What materials are explicitly mentioned as being used inside the cabin?", options: ["Hard plastic, basic cloth, and durable rubber.", "Soft leather, shining metal, and beautiful details.", "Carbon fiber, racing glass, and bare steel."], answer: 1 },
+                { q: "How do newer models like the Chiron compare to the famous Veyron?", options: ["They are much slower but more comfortable.", "They are capable of reaching even faster speeds.", "They are designed to be much cheaper to buy."], answer: 1 },
+                { q: "Based on the text, what is the primary focus of Bugatti as a company?", options: ["Pushing the extreme limits of speed, luxury, and engineering.", "Creating affordable transportation for everyday workers.", "Building heavy vehicles for construction and military use."], answer: 0 },
+                { q: "True or False: Bugatti cars are produced in massive factories using robotic assembly lines.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The company was originally founded in France.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: A Bugatti can comfortably drive over 400 kilometers per hour.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: The interior of a Bugatti is kept simple and basic to save weight for racing.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Bugattis are mostly driven by normal, middle-class business people.", options: ["True", "False"], answer: 1 }
+            ]
+        },
+        {
+            brand: "Buick",
+            audioUrl: "./Buick.mp3",
+            questions: [
+                { q: "What is the main reason older people historically liked buying Buicks?", options: ["The engines were extremely loud and powerful.", "The seats were highly relaxing and the steering required very little effort.", "They were the smallest and easiest cars to park in tight spaces."], answer: 1 },
+                { q: "The text says Buick has 'changed its style' today. What is the biggest change?", options: ["They stopped making cars and only make trucks now.", "They focus on modern SUVs that younger families find exciting and attractive.", "They moved their entire company from the US to Europe."], answer: 1 },
+                { q: "What can you infer when the text states that outside noises are 'completely blocked out' in a Buick?", options: ["The driver cannot hear emergency sirens at all.", "The company uses excellent soundproofing materials to create a peaceful cabin.", "The radio is so loud it covers up the sound of the engine."], answer: 1 },
+                { q: "Where outside of the United States is Buick described as being 'extremely popular'?", options: ["South Korea", "Germany", "China"], answer: 2 },
+                { q: "What does the Buick logo look like?", options: ["A spinning silver airplane propeller.", "Three colorful shields inside a silver circle.", "A golden bowtie."], answer: 1 },
+                { q: "How does Buick compare to other luxury car brands in terms of value?", options: ["It provides a highly luxurious feeling without charging an extremely high price.", "It is the most expensive American car brand ever created.", "It is completely free to repair if it breaks."], answer: 0 },
+                { q: "What makes Buick cars 'absolutely perfect' for long family road trips?", options: ["They can drive over deep rivers and massive rocks.", "They are physically larger, quieter, and extremely comfortable.", "They have televisions built into the steering wheel."], answer: 1 },
+                { q: "What larger corporate family is Buick a part of?", options: ["Ford Motor Company", "General Motors", "Bavarian Motor Works."], answer: 1 },
+                { q: "What traditional American characteristic does Buick successfully mix with modern technology?", options: ["Aggressive muscle-car speed.", "Ultimate, relaxing comfort.", "Off-road adventure ability."], answer: 1 },
+                { q: "When was Buick originally started?", options: ["1899", "1950", "2010"], answer: 0 },
+                { q: "True or False: Buick is currently struggling to sell cars in the Chinese market.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The brand was traditionally known for having very stiff, heavy steering.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Buick is one of the oldest car companies in the United States.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Today, Buick primarily manufactures fast, two-door sports cars.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Riding in a Buick is meant to be a quiet and relaxing experience.", options: ["True", "False"], answer: 0 }
+            ]
+        },
+        {
+            brand: "Cadillac",
+            audioUrl: "./Cadillac.mp3",
+            questions: [
+                { q: "What did people mean when they called Cadillac the 'Standard of the World'?", options: ["It was the most average and normal car on the market.", "They truly believed it was the absolute highest quality car in existence.", "It was the exact same size in every single country."], answer: 1 },
+                { q: "What design feature made 1950s Cadillacs look like 'futuristic rocket ships'?", options: ["Large circular windows.", "Huge tail fins on the back of the car.", "Doors that opened straight up into the sky."], answer: 1 },
+                { q: "What did Elvis Presley's bright pink Cadillac symbolize?", options: ["His massive financial success and high social status.", "His support for the American military.", "His desire to drive quietly and unseen."], answer: 0 },
+                { q: "How does the text describe the design of modern Cadillac vehicles?", options: ["Small, cute, and friendly.", "Very bold, confident, and sharp-looking.", "Round, soft, and invisible in traffic."], answer: 1 },
+                { q: "What is the name of Cadillac's famous, large, and powerful SUV?", options: ["The Silverado", "The Veyron", "The Escalade"], answer: 2 },
+                { q: "If you drive a Cadillac today, why do people 'notice you' according to the text?", options: ["Because the exhaust is extremely loud and smoky.", "Because the car's bold design commands attention and respect.", "Because it is always painted in neon colors."], answer: 1 },
+                { q: "What is Cadillac doing to prepare for the future of transportation?", options: ["Building fully electric luxury cars.", "Making cars that run on cheap diesel fuel.", "Inventing flying cars."], answer: 0 },
+                { q: "What does Cadillac represent in American culture?", options: ["Modesty and saving money.", "The traditional dream of wealth, success, and high status.", "Hard, physical farm labor."], answer: 1 },
+                { q: "Which feature is NOT listed as being part of a new Cadillac?", options: ["Comfortable leather seats.", "Advanced computer technology.", "Hand-cranked wooden windows."], answer: 2 },
+                { q: "Cadillac is an important part of which massive company?", options: ["Toyota", "General Motors", "Chrysler"], answer: 1 },
+                { q: "True or False: In the 1960s, Cadillac cars were built to be extremely tiny to save gas.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Elvis Presley was known for buying bright pink Cadillacs.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Cadillac is currently ignoring electric vehicle technology.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The brand is associated with a wealthy and successful American lifestyle.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: The Escalade is described as a large and powerful SUV.", options: ["True", "False"], answer: 0 }
+            ]
+        },
+        {
+            brand: "Chevrolet",
+            audioUrl: "./Chevrolet.mp3",
+            questions: [
+                { q: "Why does the text describe Chevrolet as making cars 'for everyone'?", options: ["They give their cars away for free to people who need them.", "They produce a massive variety of vehicles, from small city cars to heavy trucks.", "They only build one perfectly average car that fits every driver."], answer: 1 },
+                { q: "What kind of vehicle is the famous Chevrolet Silverado?", options: ["A very strong pickup truck for hard work.", "An incredibly fast sports car.", "A small, cheap electric city car."], answer: 0 },
+                { q: "What shape is the globally famous Chevrolet logo?", options: ["A golden bowtie.", "A silver star.", "Three red diamonds."], answer: 0 },
+                { q: "What does it mean when the text says Chevrolets offer 'great value for your money'?", options: ["You get a highly durable, reliable vehicle without spending a massive fortune.", "The cars actually go up in price every single year you own them.", "The company pays you to test-drive their cars."], answer: 0 },
+                { q: "What is Chevy's specific goal when building new electric cars?", options: ["To make them only for the absolute richest people in the world.", "To build them mostly for professional race tracks.", "To make electric driving affordable and accessible for normal, everyday families."], answer: 2 },
+                { q: "Which two cars are listed as Chevrolet's incredibly fast sports models?", options: ["The Escalade and the Pacifica", "The Corvette and the Camaro", "The Civic and the Accord"], answer: 1 },
+                { q: "What can you infer about Chevrolet from the statement 'you can see them everywhere on the roads in the United States'?", options: ["The cars are extremely slow and cause traffic jams.", "It is a highly trusted, deeply popular, and heavily purchased brand.", "The government forces people to buy them."], answer: 1 },
+                { q: "If a farmer needs to carry heavy tools, what type of Chevy would they most likely buy?", options: ["A Corvette", "A small city car", "A tough pickup truck"], answer: 2 },
+                { q: "What is a common nickname for the Chevrolet brand?", options: ["Bak", "Chevy", "Rolet"], answer: 1 },
+                { q: "Which characteristic is heavily associated with Chevrolet vehicles in the text?", options: ["Being extremely fragile and hard to fix.", "Being entirely hand-built by skilled artisans.", "Being very strong and easy to repair."], answer: 2 },
+                { q: "True or False: Chevrolet is mostly famous for producing high-end luxury vehicles for royalty.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The Chevrolet logo resembles a golden bowtie.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Chevy's electric cars are designed to be affordable for average people.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: The Corvette is mentioned as a strong pickup truck for farming.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Chevrolets are generally known to be simple to fix when they break.", options: ["True", "False"], answer: 0 }
+            ]
+        },
+        {
+            brand: "Chrysler",
+            audioUrl: "./Chrysler.mp3",
+            questions: [
+                { q: "What does the phrase 'big three car makers' imply about Chrysler's history?", options: ["It was one of the three smallest and most highly secretive companies in the world.", "It was one of the three largest and most powerful automotive companies in the United States.", "The company was strictly run by three men from the same family."], answer: 1 },
+                { q: "What was the historic 'Hemi' engine famous for doing?", options: ["Saving massive amounts of fuel during city driving.", "Making the cars drive extremely fast on the open American highways.", "Running entirely on electricity instead of gasoline."], answer: 1 },
+                { q: "How has Chrysler's main focus completely shifted in modern times?", options: ["They went from building fast classic cars to focusing on highly comfortable family minivans.", "They stopped making cars and now only build parts for airplanes.", "They currently focus exclusively on making two-seater sports cars for racing."], answer: 0 },
+                { q: "What type of vehicle is the modern Chrysler Pacifica?", options: ["A heavy-duty truck for farm labor.", "A fast, loud muscle car.", "A large, incredibly safe, and totally modern minivan."], answer: 2 },
+                { q: "Why is the Pacifica described as 'totally perfect' for parents?", options: ["It provides a highly relaxing, entertaining, and safe environment for their children.", "It is the cheapest vehicle available to buy in America today.", "It has absolutely no digital screens, keeping children away from technology."], answer: 0 },
+                { q: "Who was the hardworking founder of the company in 1925?", options: ["Henry Ford", "Walter Chrysler", "Enzo Ferrari"], answer: 1 },
+                { q: "What impact did early Chrysler designs have on the American automotive industry?", options: ["They completely and beautifully changed the entire industry.", "They were ignored by most people because they looked strange.", "They forced the government to build smaller roads."], answer: 0 },
+                { q: "What does the text suggest about modern families who buy Chryslers?", options: ["They prefer to drive extremely aggressively in traffic.", "They truly love to travel together absolutely everywhere in deep comfort.", "They rarely ever leave their hometowns."], answer: 1 },
+                { q: "What specific features make the inside of the Pacifica enjoyable for long summer holidays?", options: ["Fun digital screens and very soft seats.", "Loud engines and extremely firm racing chairs.", "A built-in kitchen and a small bed."], answer: 0 },
+                { q: "The text mentions that Chrysler 'continues to easily provide' a specific experience. What is it?", options: ["A highly comfortable and deeply relaxing daily driving experience.", "A stressful, fast-paced racing thrill.", "A challenging off-road adventure over rocks and mud."], answer: 0 },
+                { q: "True or False: The Chrysler company was originally started in the year 1925.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: The Hemi was a famous type of comfortable car seat.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Chrysler was once considered alongside Ford and General Motors as a top American brand.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Today, the Chrysler Pacifica is their most famous vehicle.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Modern Chrysler vehicles are specifically designed for professional racers.", options: ["True", "False"], answer: 1 }
+            ]
+        },
+        {
+            brand: "Citroën",
+            audioUrl: "./Citro%C3%ABn.mp3",
+            questions: [
+                { q: "Which specific word does the text use to describe Citroën's approach to vehicle design?", options: ["Traditional", "Boring", "Creative"], answer: 2 },
+                { q: "Why was the classic 2CV model absolutely perfect for farmers in the past?", options: ["It had a massive engine capable of pulling heavy farm equipment.", "It was very cheap, totally simple, and easily drove across rough fields.", "It was painted in camouflage colors to hide in the grass."], answer: 1 },
+                { q: "What effect did Citroën's special suspension systems have on the driving experience?", options: ["It made the car feel like it was happily floating on a soft cloud over bumpy roads.", "It made the car incredibly stiff so it could race around tight corners.", "It caused the car to bounce uncontrollably on the highway."], answer: 0 },
+                { q: "According to the company's core belief, what should driving feel like?", options: ["A highly competitive and fast-paced challenge.", "A comfortable and happy experience, completely free of stress.", "A noisy and aggressive event."], answer: 1 },
+                { q: "Where is the Citroën company originally from?", options: ["Italy", "Germany", "France"], answer: 2 },
+                { q: "Who started the company in the year 1919?", options: ["Ettore Bugatti", "André Citroën", "Karl Benz"], answer: 1 },
+                { q: "How do modern Citroën cars physically look today?", options: ["Interesting, highly colorful, and very comfortable.", "Sharp, aggressive, and painted only in black.", "Exactly the same as they did fifty years ago."], answer: 0 },
+                { q: "What does the phrase 'stand out from the normal, boring crowd' mean in this context?", options: ["The cars break down so often they are always parked on the side of the street.", "The designs are uniquely different and refuse to look like every other car on the road.", "The cars are physically taller than any other vehicle."], answer: 1 },
+                { q: "Why do modern Citroën cars have 'special features' inside?", options: ["To make daily life easier and far more relaxed for families.", "To help the car drive completely underwater.", "To make the engine sound like a roaring lion."], answer: 0 },
+                { q: "The brand is described as a 'proud symbol' of what?", options: ["Extreme wealth and luxury.", "Traditional British racing history.", "French engineering and welcoming style."], answer: 2 },
+                { q: "True or False: Citroën vehicles look very similar to almost every other car on the road.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The old 2CV model was designed to be highly complicated and expensive.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The company logo features a roaring lion.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Modern Citroën cars are highly popular among families in Europe.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Citroën believes that daily driving should be a highly stressful activity.", options: ["True", "False"], answer: 1 }
+            ]
+        },
+        {
+            brand: "Dodge",
+            audioUrl: "./Dodge.mp3",
+            questions: [
+                { q: "What is the clearest definition of a 'muscle car' based on the text?", options: ["A small, lightweight car that is incredibly efficient for city parking.", "A special vehicle with a massive, loud engine built to drive extremely fast in a straight line.", "A completely silent electric car designed for the environment."], answer: 1 },
+                { q: "Who originally started the Dodge company many years ago?", options: ["Two brothers named John and Horace.", "A team of European racing engineers.", "A wealthy American banker."], answer: 0 },
+                { q: "Why does Dodge intentionally use paint colors like bright orange and neon green?", options: ["To make the cars completely invisible at night.", "To make the cars look highly aggressive, exciting, and proud.", "Because those are the only paint colors available in America."], answer: 1 },
+                { q: "How does the text accurately describe the sound of a classic Dodge engine?", options: ["Remarkably loud, deep, and completely proud.", "High-pitched and incredibly quiet.", "Smooth, silent, and entirely peaceful."], answer: 0 },
+                { q: "While many other car brands are trying to be quiet and calm, what is Dodge doing?", options: ["Focusing entirely on extreme luxury and soft leather.", "Remaining loud, aggressive, and completely focused on high performance.", "Building only small, slow family vans."], answer: 1 },
+                { q: "What type of vehicle does Dodge build for families who still want a sporty feeling?", options: ["Very large, extremely strong SUVs.", "Tiny two-door hatchbacks.", "Heavy-duty farming tractors."], answer: 0 },
+                { q: "Name the two most famous Dodge muscle car models mentioned in the text.", options: ["The Mustang and the Camaro", "The Charger and the Challenger", "The Civic and the Accord"], answer: 1 },
+                { q: "What emotional experience does Dodge focus entirely on delivering?", options: ["Total peace, deep relaxation, and silence.", "The pure, thrilling excitement of traditional horsepower and speed.", "The safest, slowest commute to work possible."], answer: 1 },
+                { q: "If you hear a remarkably deep engine rumble on an American street, what does the text state it often is?", options: ["A Dodge", "A Bentley", "A Buick"], answer: 0 },
+                { q: "What nationality is the Dodge car company?", options: ["German", "Italian", "American"], answer: 2 },
+                { q: "True or False: Dodge is globally famous for producing small, quiet electric vehicles.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Muscle cars are specifically designed to drive incredibly fast in a straight line.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: The brand frequently uses bright, neon paint colors.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Dodge completely avoids making SUVs for families.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The company heavily prioritizes the thrill of high performance over a calm driving experience.", options: ["True", "False"], answer: 0 }
+            ]
+        },
+        {
+            brand: "Ferrari",
+            audioUrl: "./Ferrari.mp3",
+            questions: [
+                { q: "Why does the text state that a Ferrari is NOT designed for 'everyday driving to the supermarket'?", options: ["The trunk is too big for grocery bags.", "It is extremely loud, incredibly fast, and intended for racing or showing off wealth.", "The car physically cannot be driven at slow speeds."], answer: 1 },
+                { q: "What specific animal is proudly featured in the famous company logo?", options: ["A golden bull.", "A fast silver cat.", "A strong black horse standing on its back legs."], answer: 2 },
+                { q: "What famous professional racing championship is Ferrari extremely successful in?", options: ["World Rally Championship", "Formula 1", "Off-Road Desert Racing"], answer: 1 },
+                { q: "What does the phrase 'beautiful, rolling piece of mechanical art' suggest about a Ferrari?", options: ["It is engineered and designed so perfectly that it looks like a masterpiece in motion.", "The car is extremely fragile and breaks if it is driven in the rain.", "The parts are simply glued together by artists instead of mechanics."], answer: 0 },
+                { q: "What specific color are almost all Ferrari cars traditionally and beautifully painted?", options: ["A special, bright red.", "Deep metallic blue.", "Neon green."], answer: 0 },
+                { q: "Who is the legendary original founder of this Italian company?", options: ["Ettore Bugatti", "Enzo Ferrari", "Ferruccio Lamborghini"], answer: 1 },
+                { q: "What inevitably happens every single time a Ferrari drives down a public street?", options: ["People cover their ears because the engine is broken.", "People immediately stop what they are doing and simply stare at it.", "The police pull it over for driving too slowly."], answer: 1 },
+                { q: "What does owning a Ferrari represent as the 'ultimate life dream' for millions of people?", options: ["Pure practicality, saving money, and family safety.", "Extreme speed, beautiful art, and true Italian passion.", "The ability to carry massive amounts of heavy cargo."], answer: 1 },
+                { q: "How are Ferrari cars mechanically built, according to the text?", options: ["Using the absolute finest materials and the most advanced racing technology available.", "Using completely recycled, cheap materials to keep the cost down.", "Hand-carved entirely out of expensive wood."], answer: 0 },
+                { q: "Where is the incredibly famous Ferrari company strictly located?", options: ["Spain", "Germany", "Italy"], answer: 2 },
+                { q: "True or False: Ferrari cars are highly practical and perfect for simple, daily errands.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The company logo features a strong black horse.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Ferrari has won numerous important world championships in Formula 1 racing.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Buying a Ferrari is generally considered quite cheap and affordable.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The text compares seeing a Ferrari on the street to looking at a piece of art.", options: ["True", "False"], answer: 0 }
+            ]
+        },
+        {
+            brand: "Ford",
+            audioUrl: "./Ford.mp3",
+            questions: [
+                { q: "What incredibly important system did Henry Ford brilliantly invent?", options: ["The very first gasoline car engine in history.", "The moving assembly line to build cars quickly.", "The electric battery for modern trucks."], answer: 1 },
+                { q: "Because of Henry Ford's famous invention, what were normal, everyday working people finally able to do?", options: ["Buy his famous Model T car because it became much cheaper to build.", "Fly in airplanes across the United States.", "Work from their homes without traveling to a factory."], answer: 0 },
+                { q: "What is the absolute most famous and best-selling vehicle Ford makes in America today?", options: ["The Ford Mustang", "The Model T", "The F-150 pickup truck"], answer: 2 },
+                { q: "If Ford vehicles are described as 'highly practical,' what does this mean?", options: ["They are built only for showing off in movies.", "They are extremely useful, sensible, and completely ready for hard, daily work.", "They are too fragile to be driven in the rain or snow."], answer: 1 },
+                { q: "Which legendary sports car is loved by millions and manufactured by Ford?", options: ["The Corvette", "The Camaro", "The Mustang"], answer: 2 },
+                { q: "Who are the primary types of people that fully trust the Ford brand?", options: ["Only European royalty and famous actors.", "Families, farmers, and construction workers.", "Only professional race car drivers on closed tracks."], answer: 1 },
+                { q: "What is Ford currently investing heavily in for the future?", options: ["Steam-powered engines.", "Brand new electric trucks and cars.", "Three-wheeled motorcycles."], answer: 1 },
+                { q: "According to the text, what massive global impact did the Ford company have?", options: ["It completely changed how the entire world travels and lives.", "It proved that cars were too dangerous to drive.", "It created the first highway system in Europe."], answer: 0 },
+                { q: "In what year was the Ford company officially started?", options: ["1886", "1903", "1950"], answer: 1 },
+                { q: "The text describes Ford's history as 'deeply important.' Why is it deeply important?", options: ["Because it made cars available to the masses, not just the rich.", "Because it won a war using only cars.", "Because it was the first company to paint cars blue."], answer: 0 },
+                { q: "True or False: Henry Ford invented the very first automobile in the world.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The moving assembly line made cars much more expensive to build.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The F-150 pickup truck has been a best-seller in America for many years.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Ford is currently completely ignoring the development of electric vehicles.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The Ford company is proudly American.", options: ["True", "False"], answer: 0 }
+            ]
+        },
+        {
+            brand: "Honda",
+            audioUrl: "./Honda.mp3",
+            questions: [
+                { q: "Besides making wonderful cars, what is Honda the absolute biggest maker of in the entire world?", options: ["Bicycles", "Farm tractors", "Motorcycles"], answer: 2 },
+                { q: "What does it mean when the text states that Honda cars are 'incredibly reliable'?", options: ["They very rarely break down and last for many years.", "They always win every single race they enter.", "They are the fastest cars available in Japan."], answer: 0 },
+                { q: "How do Honda's excellent engines help drivers save a lot of money?", options: ["They are completely free to repair at any time.", "They use very little fuel, making them highly efficient.", "They run entirely on water instead of gasoline."], answer: 1 },
+                { q: "Which two specific car models are listed as Honda's most popular and trusted?", options: ["The Civic and the Accord.", "The Charger and the Challenger.", "The Wrangler and the Cherokee."], answer: 0 },
+                { q: "Who are Honda cars 'completely perfect' for according to the text?", options: ["Young students, busy families, and daily office workers.", "Only the richest business leaders in the world.", "People who want to drive off-road through deep mud."], answer: 0 },
+                { q: "In addition to cars and bikes, what advanced technology does Honda also make?", options: ["Spaceships and submarines.", "Advanced robots and private airplanes.", "Televisions and mobile phones."], answer: 1 },
+                { q: "What is buying a Honda always considered to be?", options: ["A massive financial risk.", "A very wise and safe financial decision.", "An aggressive and loud choice."], answer: 1 },
+                { q: "Where is the incredibly successful Honda company located?", options: ["China", "South Korea", "Japan"], answer: 2 },
+                { q: "What core idea does the company strongly believe in?", options: ["The true power of dreams.", "The absolute need for loud engines.", "Making cars only for the extremely wealthy."], answer: 0 },
+                { q: "If a person wants a vehicle that will 'last a very long time,' why is Honda a smart choice?", options: ["The car parts are made of solid gold.", "You can easily drive them for years without facing big, expensive mechanical problems.", "The company forces you to drive extremely slowly."], answer: 1 },
+                { q: "True or False: Honda is originally a manufacturing company from South Korea.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The company produces more motorcycles than any other company on Earth.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Honda engines are known for wasting large amounts of fuel.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The Honda Civic is designed mainly for professional race tracks.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Honda also engineers advanced robots and private planes.", options: ["True", "False"], answer: 0 }
+            ]
+        },
+        {
+            brand: "Hyundai",
+            audioUrl: "./Hyundai.mp3",
+            questions: [
+                { q: "What does the beautiful Korean word 'Hyundai' actually translate to in English?", options: ["Fast speed", "Modern", "Ocean wave"], answer: 1 },
+                { q: "Why did many people mainly buy Hyundai cars about twenty years ago?", options: ["Because they were incredibly fast and loud.", "Because they were very cheap to own.", "Because they were the most luxurious cars in the world."], answer: 1 },
+                { q: "How has the situation 'completely changed' for Hyundai today?", options: ["They only make extremely expensive sports cars now.", "They now build very high-quality, safe cars full of modern technology.", "They stopped selling cars outside of South Korea."], answer: 1 },
+                { q: "What special promise does Hyundai give with their new cars that makes people truly trust the brand?", options: ["A promise that the car will never run out of gas.", "A very long warranty promising to fix the car for free if it breaks in the first five to ten years.", "A promise to give the owner a free motorcycle."], answer: 1 },
+                { q: "What specific type of environmentally friendly vehicle is Hyundai making very well right now?", options: ["Wind-powered trucks.", "Some of the very best electric cars in the world.", "Cars that run on solar panels on the roof."], answer: 1 },
+                { q: "How does the text describe the interiors of modern Hyundai vehicles?", options: ["Quiet, very comfortable, and using premium materials.", "Loud, basic, and made completely of hard plastic.", "Empty, to save weight for faster racing."], answer: 0 },
+                { q: "Where is Hyundai originally from?", options: ["Japan", "South Korea", "China"], answer: 1 },
+                { q: "What does it mean that Hyundai 'constantly listens to what modern drivers want'?", options: ["They place hidden microphones in their cars to spy on drivers.", "They actively pay attention to customer needs and quickly build vehicles to fit those daily needs.", "They only build cars based on internet surveys."], answer: 1 },
+                { q: "Hyundai's growth globally is described as being incredibly what?", options: ["Slow and careful.", "Quick and successful.", "Difficult and stressful."], answer: 1 },
+                { q: "Which types of vehicles does Hyundai manufacture today?", options: ["Only small city cars.", "Only giant military trucks.", "Everything from small city cars to big family SUVs."], answer: 2 },
+                { q: "True or False: 'Hyundai' translates to 'traditional' in the Korean language.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Twenty years ago, the brand was mostly known for being cheap to own.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: A long warranty means the company refuses to fix broken parts.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Hyundai is recognized for rapid global growth and brilliant engineering.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: The company does not build electric cars.", options: ["True", "False"], answer: 1 }
+            ]
+        },
+        {
+            brand: "Jaguar",
+            audioUrl: "./Jaguar.wav",
+            questions: [
+                { q: "What incredible animal does the Jaguar car company take its proud name from?", options: ["A large, slow bear.", "An incredibly fast, beautiful, and powerful wild cat.", "A small, fast bird."], answer: 1 },
+                { q: "How are Jaguar cars carefully designed to look on the road?", options: ["Extremely elegant, sporty, and naturally powerful.", "Small, quiet, and completely invisible.", "Boxy, rough, and ready for farming."], answer: 0 },
+                { q: "In the past, who frequently drove the big, beautiful Jaguar luxury sedans in England?", options: ["Teenagers and young students.", "Rich business people and important politicians.", "Professional race car drivers on dirt tracks."], answer: 1 },
+                { q: "What two materials usually fill the quiet inside of a classic Jaguar?", options: ["Cold steel and hard plastic.", "The finest soft leather and very warm, beautiful wood details.", "Rough cloth and recycled rubber."], answer: 1 },
+                { q: "Why does Jaguar make modern SUVs today?", options: ["To compete with massive farming tractors.", "To perfectly keep up with what modern families truly want to buy.", "Because they forgot how to make small sports cars."], answer: 1 },
+                { q: "What does the Jaguar brand perfectly represent a combination of?", options: ["Traditional British style combined with incredibly fast, sporty engine performance.", "Cheap prices mixed with simple, basic technology.", "Off-road adventure mixed with loud, noisy exhausts."], answer: 0 },
+                { q: "Whenever you see a Jaguar, it always looks ready to jump forward.", options: ["Go to sleep.", "Jump forward.", "Drive off a mountain."], answer: 1 },
+                { q: "What major change is Jaguar planning for the near future?", options: ["To stop making cars and only make motorcycles.", "To become a completely electric car brand.", "To move their factory to the United States."], answer: 1 },
+                { q: "How does driving a Jaguar make the driver feel?", options: ["Sophisticated, wealthy, and wonderfully connected to British automotive history.", "Stressed, rushed, and worried about breaking down.", "Like they are driving a heavy military tank."], answer: 0 },
+                { q: "Where is the highly famous luxury company Jaguar from?", options: ["Germany", "Italy", "The United Kingdom"], answer: 2 },
+                { q: "True or False: Jaguar cars are designed to look naturally powerful, like the wild cat they are named after.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Classic Jaguars were known for having cheap, basic interiors.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The brand is completely ignoring SUVs and only makes classic sedans today.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Jaguar is currently planning to transition to fully electric vehicles.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: The company has strong historical ties to the United Kingdom.", options: ["True", "False"], answer: 0 }
+            ]
+        }
+    ];
+
+    let currentAudio = new Audio();
+    let isPlaying = false;
+    
+    let totalQuestions = 0;
+    let questionsAnswered = 0;
+    let correctAnswers = 0;
+
+    const carList = document.getElementById('car-list');
+    quizData.forEach((car, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'car-btn';
+        btn.innerText = `🎧 ${car.brand}`;
+        btn.onclick = () => loadQuiz(index);
+        carList.appendChild(btn);
+    });
+
+    function loadQuiz(index) {
+        const currentCar = quizData[index];
+        document.getElementById('home-screen').classList.remove('active');
+        document.getElementById('quiz-screen').classList.add('active');
+        document.getElementById('quiz-title').innerText = currentCar.brand;
+        
+        document.getElementById('results-section').style.display = 'none';
+        
+        totalQuestions = currentCar.questions.length;
+        questionsAnswered = 0;
+        correctAnswers = 0;
+
+        currentAudio.src = currentCar.audioUrl;
+        
+        const container = document.getElementById('questions-container');
+        container.innerHTML = ''; 
+
+        currentCar.questions.forEach((q, qIndex) => {
+            const block = document.createElement('div');
+            block.className = 'question-block';
+            
+            const title = document.createElement('div');
+            title.className = 'question-text';
+            title.innerText = `${qIndex + 1}. ${q.q}`;
+            block.appendChild(title);
+
+            q.options.forEach((opt, optIndex) => {
+                const optBtn = document.createElement('button');
+                optBtn.className = 'option-btn';
+                optBtn.innerText = opt;
+                optBtn.onclick = () => checkAnswer(optBtn, block, optIndex, q.answer);
+                block.appendChild(optBtn);
+            });
+
+            container.appendChild(block);
+        });
+        window.scrollTo(0,0);
+    }
+
+    function checkAnswer(btn, block, selectedIndex, correctIndex) {
+        const buttons = block.querySelectorAll('.option-btn');
+        buttons.forEach(b => b.disabled = true);
+
+        questionsAnswered++;
+
+        if (selectedIndex === correctIndex) {
+            btn.classList.add('selected-correct');
+            btn.innerText = "✅ " + btn.innerText;
+            correctAnswers++;
+        } else {
+            btn.classList.add('selected-wrong');
+            btn.innerText = "❌ " + btn.innerText;
+            buttons[correctIndex].classList.add('selected-correct'); 
+        }
+
+        if (questionsAnswered === totalQuestions) {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        const resultsSection = document.getElementById('results-section');
+        const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+        const wrongAnswers = totalQuestions - correctAnswers;
+
+        document.getElementById('score-percentage').innerText = `${percentage}%`;
+        document.getElementById('score-correct').innerText = correctAnswers;
+        document.getElementById('score-wrong').innerText = wrongAnswers;
+        document.getElementById('score-total').innerText = totalQuestions;
+
+        const percentageElement = document.getElementById('score-percentage');
+        if (percentage >= 80) {
+            percentageElement.style.color = 'var(--correct)';
+        } else if (percentage >= 50) {
+            percentageElement.style.color = '#eab308';
+        } else {
+            percentageElement.style.color = 'var(--wrong)';
+        }
+
+        resultsSection.style.display = 'block';
+        
+        setTimeout(() => {
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }, 300);
+    }
+
+    function playAudio() {
+        currentAudio.play().catch(e => {
+            alert("Failed to load audio from:\n" + currentAudio.src + "\n\nError: " + e.message);
+        });
+        isPlaying = true;
+    }
+
+    function stopAudio() {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        isPlaying = false;
+    }
+
+    function goHome() {
+        stopAudio();
+        document.getElementById('quiz-screen').classList.remove('active');
+        document.getElementById('home-screen').classList.add('active');
+    }
+</script>
+</body>
+</html>
