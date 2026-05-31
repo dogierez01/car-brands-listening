@@ -74,6 +74,10 @@
             box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
         }
 
+        .car-btn:active {
+            transform: scale(0.98);
+        }
+
         .audio-controls {
             display: flex;
             gap: 12px;
@@ -226,12 +230,11 @@
 </div>
 
 <script>
-    // Updated with raw GitHub URLs matching the repo from the screenshot.
-    // Ensure the casing in these URLs matches your GitHub files exactly!
+    // Using relative paths. These look directly in the repo folder where index.html is hosted.
     const quizData = [
         {
             brand: "Alfa Romeo",
-            audioUrl: "https://raw.githubusercontent.com/dogierez01/car-brands-listening/main/alfa-romeo.mp3",
+            audioUrl: "alfa-romeo.mp3", 
             questions: [
                 { q: "According to the text, why is the triangular front grille important for Alfa Romeo?", options: ["It makes the engine run faster during races.", "It helps people instantly spot and identify the brand on the road.", "It protects the engine from damage better than a square grille."], answer: 1 },
                 { q: "What can we infer about the text describing Alfa Romeo cars as looking 'like art'?", options: ["They are only meant to be looked at in museums.", "Great care and creativity went into how the outside looks.", "They are painted with many different colors by artists."], answer: 1 },
@@ -252,7 +255,7 @@
         },
         {
             brand: "Audi",
-            audioUrl: "https://raw.githubusercontent.com/dogierez01/car-brands-listening/main/Audi.mp3",
+            audioUrl: "Audi.mp3",
             questions: [
                 { q: "What is the historical meaning behind the four silver rings in Audi's logo?", options: ["They represent the four wheels of a standard car.", "They show that four older separate companies came together as one.", "They stand for the four seasons of the year when driving is safe."], answer: 1 },
                 { q: "The text describes the Quattro system as an 'invention.' What does 'invention' mean in this context?", options: ["A completely new creation or system that did not exist before.", "A type of heavy rain or winter storm.", "An expensive material used inside the car seats."], answer: 0 },
@@ -273,7 +276,7 @@
         },
         {
             brand: "Bentley",
-            audioUrl: "https://raw.githubusercontent.com/dogierez01/car-brands-listening/main/Bentley.mp3",
+            audioUrl: "Bentley.mp3",
             questions: [
                 { q: "What unique combination makes Bentley cars famous around the world?", options: ["Being extremely small but very loud.", "Being highly comfortable while also possessing great speed.", "Being very cheap to buy but difficult to fix."], answer: 1 },
                 { q: "The text notes that almost everything inside a Bentley is 'made by hand.' What does this tell us?", options: ["The cars take a very short time to build.", "No machines are used to build the metal engines.", "Human workers carefully craft the details with high skill."], answer: 2 },
@@ -294,7 +297,7 @@
         },
         {
             brand: "BMW",
-            audioUrl: "https://raw.githubusercontent.com/dogierez01/car-brands-listening/main/BMW.mp3",
+            audioUrl: "BMW.mp3",
             questions: [
                 { q: "What did BMW produce before they ever started manufacturing cars?", options: ["Farm equipment and tractors.", "Engines for airplanes.", "Racing bicycles for kids."], answer: 1 },
                 { q: "How does BMW's past history explain the design of their blue and white logo?", options: ["It looks like a spinning airplane propeller against the clear sky.", "It represents the colors of the German national football team flag.", "It shows a map of the beautiful city of Milan."], answer: 0 },
@@ -411,37 +414,4 @@
         const percentageElement = document.getElementById('score-percentage');
         if (percentage >= 80) {
             percentageElement.style.color = 'var(--correct)';
-        } else if (percentage >= 50) {
-            percentageElement.style.color = '#eab308'; // Yellow/Orange
-        } else {
-            percentageElement.style.color = 'var(--wrong)';
-        }
-
-        resultsSection.style.display = 'block';
-        
-        // Auto-scroll to results
-        setTimeout(() => {
-            resultsSection.scrollIntoView({ behavior: 'smooth' });
-        }, 300);
-    }
-
-    function playAudio() {
-        currentAudio.play().catch(e => alert("Audio could not be loaded. Please ensure the exact file name matches the GitHub repository (e.g., 'Audi.mp3' vs 'audi.mp3'). Error: " + e.message));
-        isPlaying = true;
-    }
-
-    function stopAudio() {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        isPlaying = false;
-    }
-
-    function goHome() {
-        stopAudio();
-        document.getElementById('quiz-screen').classList.remove('active');
-        document.getElementById('home-screen').classList.add('active');
-    }
-</script>
-
-</body>
-</html>
+        } else if
