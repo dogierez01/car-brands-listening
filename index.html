@@ -414,4 +414,37 @@
         const percentageElement = document.getElementById('score-percentage');
         if (percentage >= 80) {
             percentageElement.style.color = 'var(--correct)';
-        } else if
+        } else if (percentage >= 50) {
+            percentageElement.style.color = '#eab308'; // Yellow/Orange
+        } else {
+            percentageElement.style.color = 'var(--wrong)';
+        }
+
+        resultsSection.style.display = 'block';
+        
+        // Auto-scroll to results
+        setTimeout(() => {
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }, 300);
+    }
+
+    function playAudio() {
+        currentAudio.play().catch(e => alert("Audio could not be loaded! Please make sure the filename exactly matches what is in your repository. Error: " + e.message));
+        isPlaying = true;
+    }
+
+    function stopAudio() {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        isPlaying = false;
+    }
+
+    function goHome() {
+        stopAudio();
+        document.getElementById('quiz-screen').classList.remove('active');
+        document.getElementById('home-screen').classList.add('active');
+    }
+</script>
+
+</body>
+</html>
