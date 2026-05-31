@@ -74,10 +74,6 @@
             box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
         }
 
-        .car-btn:active {
-            transform: scale(0.98);
-        }
-
         .audio-controls {
             display: flex;
             gap: 12px;
@@ -151,6 +147,37 @@
             cursor: default;
         }
 
+        /* Results Screen Styles */
+        .results-container {
+            display: none;
+            text-align: center;
+            padding: 30px 20px;
+            background: #f0fdf4;
+            border: 2px solid var(--correct);
+            border-radius: 16px;
+            margin-top: 30px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .results-container h2 {
+            margin-top: 0;
+            color: #166534;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .percentage-circle {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin: 15px 0;
+        }
+
         .menu-btn {
             width: 100%;
             padding: 16px;
@@ -184,16 +211,27 @@
 
         <div id="questions-container"></div>
 
+        <div id="results-section" class="results-container">
+            <h2>Quiz Complete!</h2>
+            <div class="percentage-circle" id="score-percentage">100%</div>
+            <div class="stat-row">
+                <div style="color: var(--correct); font-weight: bold;">✅ Correct: <span id="score-correct">0</span></div>
+                <div style="color: var(--wrong); font-weight: bold;">❌ Incorrect: <span id="score-wrong">0</span></div>
+            </div>
+            <p style="font-weight: bold; color: #475569;">Total Questions: <span id="score-total">15</span></p>
+        </div>
+
         <button class="menu-btn" onclick="goHome()">⬅ Back to Main Menu</button>
     </div>
 </div>
 
 <script>
-    // Replace the audioUrl values with your raw GitHub links once uploaded!
+    // Updated with raw GitHub URLs matching the repo from the screenshot.
+    // Ensure the casing in these URLs matches your GitHub files exactly!
     const quizData = [
         {
             brand: "Alfa Romeo",
-            audioUrl: "https://raw.githubusercontent.com/YOUR_ACCOUNT/YOUR_REPO/main/alfa_romeo.mp3",
+            audioUrl: "https://raw.githubusercontent.com/dogierez01/car-brands-listening/main/alfa-romeo.mp3",
             questions: [
                 { q: "According to the text, why is the triangular front grille important for Alfa Romeo?", options: ["It makes the engine run faster during races.", "It helps people instantly spot and identify the brand on the road.", "It protects the engine from damage better than a square grille."], answer: 1 },
                 { q: "What can we infer about the text describing Alfa Romeo cars as looking 'like art'?", options: ["They are only meant to be looked at in museums.", "Great care and creativity went into how the outside looks.", "They are painted with many different colors by artists."], answer: 1 },
@@ -214,7 +252,7 @@
         },
         {
             brand: "Audi",
-            audioUrl: "https://raw.githubusercontent.com/YOUR_ACCOUNT/YOUR_REPO/main/audi.mp3",
+            audioUrl: "https://raw.githubusercontent.com/dogierez01/car-brands-listening/main/Audi.mp3",
             questions: [
                 { q: "What is the historical meaning behind the four silver rings in Audi's logo?", options: ["They represent the four wheels of a standard car.", "They show that four older separate companies came together as one.", "They stand for the four seasons of the year when driving is safe."], answer: 1 },
                 { q: "The text describes the Quattro system as an 'invention.' What does 'invention' mean in this context?", options: ["A completely new creation or system that did not exist before.", "A type of heavy rain or winter storm.", "An expensive material used inside the car seats."], answer: 0 },
@@ -235,7 +273,7 @@
         },
         {
             brand: "Bentley",
-            audioUrl: "https://raw.githubusercontent.com/YOUR_ACCOUNT/YOUR_REPO/main/bentley.mp3",
+            audioUrl: "https://raw.githubusercontent.com/dogierez01/car-brands-listening/main/Bentley.mp3",
             questions: [
                 { q: "What unique combination makes Bentley cars famous around the world?", options: ["Being extremely small but very loud.", "Being highly comfortable while also possessing great speed.", "Being very cheap to buy but difficult to fix."], answer: 1 },
                 { q: "The text notes that almost everything inside a Bentley is 'made by hand.' What does this tell us?", options: ["The cars take a very short time to build.", "No machines are used to build the metal engines.", "Human workers carefully craft the details with high skill."], answer: 2 },
@@ -256,7 +294,7 @@
         },
         {
             brand: "BMW",
-            audioUrl: "https://raw.githubusercontent.com/YOUR_ACCOUNT/YOUR_REPO/main/bmw.mp3",
+            audioUrl: "https://raw.githubusercontent.com/dogierez01/car-brands-listening/main/BMW.mp3",
             questions: [
                 { q: "What did BMW produce before they ever started manufacturing cars?", options: ["Farm equipment and tractors.", "Engines for airplanes.", "Racing bicycles for kids."], answer: 1 },
                 { q: "How does BMW's past history explain the design of their blue and white logo?", options: ["It looks like a spinning airplane propeller against the clear sky.", "It represents the colors of the German national football team flag.", "It shows a map of the beautiful city of Milan."], answer: 0 },
@@ -279,6 +317,11 @@
 
     let currentAudio = new Audio();
     let isPlaying = false;
+    
+    // Score tracking variables
+    let totalQuestions = 0;
+    let questionsAnswered = 0;
+    let correctAnswers = 0;
 
     // Build the Main Menu
     const carList = document.getElementById('car-list');
@@ -296,6 +339,14 @@
         document.getElementById('quiz-screen').classList.add('active');
         document.getElementById('quiz-title').innerText = currentCar.brand;
         
+        // Hide results screen if it was open from a previous quiz
+        document.getElementById('results-section').style.display = 'none';
+        
+        // Reset scores
+        totalQuestions = currentCar.questions.length;
+        questionsAnswered = 0;
+        correctAnswers = 0;
+
         // Setup Audio
         currentAudio.src = currentCar.audioUrl;
         
@@ -328,18 +379,54 @@
         const buttons = block.querySelectorAll('.option-btn');
         buttons.forEach(b => b.disabled = true); // Lock the question once answered
 
+        questionsAnswered++;
+
         if (selectedIndex === correctIndex) {
             btn.classList.add('selected-correct');
             btn.innerText = "✅ " + btn.innerText;
+            correctAnswers++;
         } else {
             btn.classList.add('selected-wrong');
             btn.innerText = "❌ " + btn.innerText;
             buttons[correctIndex].classList.add('selected-correct'); 
         }
+
+        // Check if all questions are answered
+        if (questionsAnswered === totalQuestions) {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        const resultsSection = document.getElementById('results-section');
+        const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+        const wrongAnswers = totalQuestions - correctAnswers;
+
+        document.getElementById('score-percentage').innerText = `${percentage}%`;
+        document.getElementById('score-correct').innerText = correctAnswers;
+        document.getElementById('score-wrong').innerText = wrongAnswers;
+        document.getElementById('score-total').innerText = totalQuestions;
+
+        // Change color based on score
+        const percentageElement = document.getElementById('score-percentage');
+        if (percentage >= 80) {
+            percentageElement.style.color = 'var(--correct)';
+        } else if (percentage >= 50) {
+            percentageElement.style.color = '#eab308'; // Yellow/Orange
+        } else {
+            percentageElement.style.color = 'var(--wrong)';
+        }
+
+        resultsSection.style.display = 'block';
+        
+        // Auto-scroll to results
+        setTimeout(() => {
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }, 300);
     }
 
     function playAudio() {
-        currentAudio.play().catch(e => alert("Please ensure your audio URL is correct and public on GitHub. Error: " + e.message));
+        currentAudio.play().catch(e => alert("Audio could not be loaded. Please ensure the exact file name matches the GitHub repository (e.g., 'Audi.mp3' vs 'audi.mp3'). Error: " + e.message));
         isPlaying = true;
     }
 
