@@ -1,1 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Deniz's Listening Challenge</title>
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --correct: #22c55e;
+            --wrong: #ef4444;
+            --border: #e2e8f0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .app-container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card);
+            border-radius: 20px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            padding: 24px;
+            box-sizing: border-box;
+            margin-bottom: 40px;
+        }
 
+        h1 {
+            text-align: center;
+            font-size: 26px;
+            margin-bottom: 24px;
+            color: var(--primary-dark);
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .car-btn {
+            width: 100%;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            background: #f0f9ff;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
+        }
+
+        .car-btn:active {
+            transform: scale(0.98);
+        }
+
+        .audio-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            position: sticky;
+            top: 0;
+            background: var(--card);
+            padding: 10px 0;
+            border-bottom: 2px solid var(--border);
+            z-index: 10;
+        }
+
+        .audio-btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+        }
+
+        .play-btn { background: var(--correct); }
+        .stop-btn { background: var(--wrong); }
+
+        .question-block {
+            margin-bottom: 32px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: white;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .option-btn.selected-correct {
+            background: var(--correct);
+            color: white;
+            border-color: var(--correct);
+            font-weight: bold;
+        }
+
+        .option-btn.selected-wrong {
+            background: var(--wrong);
+            color: white;
+            border-color: var(--wrong);
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+        }
+
+        .menu-btn {
+            width: 100%;
+            padding: 16px;
+            margin-top: 20px;
+            background: var(--text);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div id="home-screen" class="screen active">
+        <h1>Deniz's Listening Challenge</h1>
+        <p style="text-align: center; margin-bottom: 24px; color: #64748b; font-size: 16px;">Select a car brand, listen carefully, and beat the quiz!</p>
+        <div id="car-list"></div>
+    </div>
+
+    <div id="quiz-screen" class="screen">
+        <h1 id="quiz-title">Car Name</h1>
+        
+        <div class="audio-controls">
+            <button class="audio-btn play-btn" onclick="playAudio()">▶️ Play Audio</button>
+            <button class="audio-btn stop-btn" onclick="stopAudio()">⏹️ Stop</button>
+        </div>
+
+        <div id="questions-container"></div>
+
+        <button class="menu-btn" onclick="goHome()">⬅ Back to Main Menu</button>
+    </div>
+</div>
+
+<script>
+    // Replace the audioUrl values with your raw GitHub links once uploaded!
+    const quizData = [
+        {
+            brand: "Alfa Romeo",
+            audioUrl: "https://raw.githubusercontent.com/YOUR_ACCOUNT/YOUR_REPO/main/alfa_romeo.mp3",
+            questions: [
+                { q: "According to the text, why is the triangular front grille important for Alfa Romeo?", options: ["It makes the engine run faster during races.", "It helps people instantly spot and identify the brand on the road.", "It protects the engine from damage better than a square grille."], answer: 1 },
+                { q: "What can we infer about the text describing Alfa Romeo cars as looking 'like art'?", options: ["They are only meant to be looked at in museums.", "Great care and creativity went into how the outside looks.", "They are painted with many different colors by artists."], answer: 1 },
+                { q: "The text mentions that old racing victories 'proved' their engines were strong. What does 'proved' mean here?", options: ["Showed clearly that it was true.", "Made the engines look more beautiful.", "Allowed the company to change its logo."], answer: 0 },
+                { q: "Why do people feel 'connected to the road' when driving an Alfa Romeo?", options: ["The car moves so slowly that you feel every bump.", "The tires are wider than regular cars.", "The steering reacts instantly to the driver's movements."], answer: 2 },
+                { q: "If a car is described as a 'classic Italian machine,' what does this suggest?", options: ["It was built hundreds of years ago.", "It carries a famous, long-standing tradition of Italian style.", "It can only be driven inside Italy."], answer: 1 },
+                { q: "What is the main reason why someone would choose an Alfa Romeo over a 'normal vehicle'?", options: ["They want a car that looks and feels unique compared to everyday traffic.", "They need the cheapest car available for long trips.", "They want a car that has no symbols or logos on it."], answer: 0 },
+                { q: "The text states that Alfa Romeo has a 'history of passion.' In this context, what does 'passion' mean?", options: ["A deep love and intense excitement for building and driving cars.", "A rule that says cars must be painted red.", "The scientific study of how car engines work."], answer: 0 },
+                { q: "What kind of cars does the company focus on making today?", options: ["Only large trucks for farmers.", "Both speedy sports vehicles and fashionable family cars.", "Only electric cars that make no sound."], answer: 1 },
+                { q: "How does the sound of the engine affect the driver according to the text?", options: ["It is loud enough to bother other people on the street.", "It makes the driving experience highly enjoyable and exciting.", "It helps the driver listen to the radio better."], answer: 1 },
+                { q: "Based on the text, who is the primary audience that Alfa Romeo builds cars for?", options: ["Drivers who just want to get from one place to another cheaply.", "People who genuinely love the emotional thrill of driving.", "Construction workers who need to carry heavy tools."], answer: 1 },
+                { q: "True or False: Alfa Romeo was started in a city famous for its beauty.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: The red cross and green snake logo was recently created to make the car look modern.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Alfa Romeo no longer makes cars for families, only for racing tracks.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The triangular shape on the front of the car makes it difficult to recognize.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The text suggests that driving an Alfa Romeo feels different from driving an ordinary car.", options: ["True", "False"], answer: 0 }
+            ]
+        },
+        {
+            brand: "Audi",
+            audioUrl: "https://raw.githubusercontent.com/YOUR_ACCOUNT/YOUR_REPO/main/audi.mp3",
+            questions: [
+                { q: "What is the historical meaning behind the four silver rings in Audi's logo?", options: ["They represent the four wheels of a standard car.", "They show that four older separate companies came together as one.", "They stand for the four seasons of the year when driving is safe."], answer: 1 },
+                { q: "The text describes the Quattro system as an 'invention.' What does 'invention' mean in this context?", options: ["A completely new creation or system that did not exist before.", "A type of heavy rain or winter storm.", "An expensive material used inside the car seats."], answer: 0 },
+                { q: "How does the Quattro system make driving safer in deep snow?", options: ["It makes the inside of the car warmer.", "It automatically clears the snow off the road.", "It gives power to every single wheel at the same time for better grip."], answer: 2 },
+                { q: "Why would a business professional most likely select an Audi over another brand?", options: ["It looks respectable, serious, and stylish for their work life.", "It is the loudest car available on the market.", "It does not use any modern computer technology."], answer: 0 },
+                { q: "The text mentions that Audi uses 'premium materials' and technology inside. What does 'premium' mean?", options: ["Very cheap and simple.", "High-quality and luxurious.", "Old-fashioned and traditional."], answer: 1 },
+                { q: "What is Audi's current strategy regarding the environment?", options: ["They are stopping the production of all sports cars immediately.", "They are creating new electric vehicles to reduce pollution.", "They are only selling cars in places where it never snows."], answer: 1 },
+                { q: "How is the driving experience of an Audi described?", options: ["Wild, noisy, and bumpy.", "Smooth, calm, and highly comfortable.", "Fast, heavy, and difficult to steer."], answer: 1 },
+                { q: "What does the phrase 'reliable German engineering' suggest about the car?", options: ["It is built poorly but looks nice.", "It is created with dependable and excellent technical skills.", "It can only be fixed by engineers who live in Germany."], answer: 1 },
+                { q: "Which type of vehicle is NOT explicitly mentioned as being made by Audi today?", options: ["Large family SUVs.", "Massive pickup trucks for farming.", "Small city cars."], answer: 1 },
+                { q: "What is the main benefit of sending power to all four wheels simultaneously?", options: ["It allows the car to fly over deep puddles.", "It prevents the car from easily sliding or losing control in bad weather.", "It uses less fuel than a two-wheel-drive car."], answer: 1 },
+                { q: "True or False: The four rings in Audi's logo are painted bright gold.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The Quattro system is mostly designed to make the car drive faster on completely dry racing tracks.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Audi aims to protect the future environment by developing electric vehicles.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: The interior of an Audi is usually simple and lacks computer screens.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Business leaders enjoy Audi because it has an elegant and professional appearance.", options: ["True", "False"], answer: 0 }
+            ]
+        },
+        {
+            brand: "Bentley",
+            audioUrl: "https://raw.githubusercontent.com/YOUR_ACCOUNT/YOUR_REPO/main/bentley.mp3",
+            questions: [
+                { q: "What unique combination makes Bentley cars famous around the world?", options: ["Being extremely small but very loud.", "Being highly comfortable while also possessing great speed.", "Being very cheap to buy but difficult to fix."], answer: 1 },
+                { q: "The text notes that almost everything inside a Bentley is 'made by hand.' What does this tell us?", options: ["The cars take a very short time to build.", "No machines are used to build the metal engines.", "Human workers carefully craft the details with high skill."], answer: 2 },
+                { q: "Why did Bentley become highly popular in the 1920s?", options: ["Because they started making the cheapest family cars in Europe.", "Because they won famous competitive car races in France.", "Because they changed their logo to look like a tree."], answer: 1 },
+                { q: "What does the phrase 'symbol of British luxury' mean?", options: ["It represents high wealth, high status, and traditional British quality.", "It means only citizens of the United Kingdom are allowed to buy it.", "It shows that the car is powered by a British engine."], answer: 0 },
+                { q: "Even though Bentley cars are described as 'large and heavy,' how do they behave on highways?", options: ["They shake a lot when driving fast.", "They move with incredible smoothness and ease.", "They require two people to steer them safely."], answer: 1 },
+                { q: "What does it mean if an owner 'appreciates traditional design'?", options: ["They want their car to look exactly like a futuristic spaceship.", "They value classic, time-tested styles that stay elegant over time.", "They prefer cars that are built completely out of plastic."], answer: 1 },
+                { q: "Who are the typical drivers of Bentley cars mentioned in the text?", options: ["Regular college students and schoolteachers.", "Young children and professional sports racers.", "Royalty, famous actors, and wealthy business leaders."], answer: 2 },
+                { q: "The text describes the engine as powerful but says the cars drive 'without making a lot of noise.' Why is this important?", options: ["It allows the car to hide from other vehicles on the street.", "It creates a peaceful and premium experience for the wealthy passengers.", "It proves that the engine is actually very small."], answer: 1 },
+                { q: "What specific materials would you touch inside a new Bentley?", options: ["Rough plastic, cold glass, and basic cloth.", "Soft leather, expensive wood, and shining metal.", "Recycled paper, thick rubber, and stone."], answer: 1 },
+                { q: "The text mentions W.O. Bentley. Who was he?", options: ["A famous French race car driver who won in the 1920s.", "The hardworking man who started the company in 1919.", "A member of the British royal family who bought the first car."], answer: 1 },
+                { q: "True or False: Bentley cars are affordable for the average working-class family.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The inside of a Bentley features authentic wood obtained from expensive trees.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Bentley's history of winning races took place mostly in the United States.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: Despite their massive weight, Bentleys travel smoothly at high speeds.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: Bentley was established right before the start of the 1900s.", options: ["True", "False"], answer: 1 }
+            ]
+        },
+        {
+            brand: "BMW",
+            audioUrl: "https://raw.githubusercontent.com/YOUR_ACCOUNT/YOUR_REPO/main/bmw.mp3",
+            questions: [
+                { q: "What did BMW produce before they ever started manufacturing cars?", options: ["Farm equipment and tractors.", "Engines for airplanes.", "Racing bicycles for kids."], answer: 1 },
+                { q: "How does BMW's past history explain the design of their blue and white logo?", options: ["It looks like a spinning airplane propeller against the clear sky.", "It represents the colors of the German national football team flag.", "It shows a map of the beautiful city of Milan."], answer: 0 },
+                { q: "If BMW cars are nicknamed the 'ultimate driving machines,' what does 'ultimate' mean here?", options: ["The most basic and simple option available.", "The highest, greatest, or best example of its kind.", "The oldest and most historical version."], answer: 1 },
+                { q: "Why is the interior of a BMW described as 'perfectly organized for the driver'?", options: ["It has plenty of space to store a lot of groceries.", "All buttons and controls are placed exactly where the driver can easily reach them.", "It changes its shape depending on who is driving."], answer: 1 },
+                { q: "What is BMW's primary goal with their new electric vehicles?", options: ["To make cars that look exactly like airplanes.", "To offer exciting driving experiences without using gasoline to protect nature.", "To build cars that can only be driven on sunny days."], answer: 1 },
+                { q: "The name BMW translates to 'Bavarian Motor Works.' What does 'Bavarian' refer to?", options: ["The name of the man who invented the airplane engine.", "The specific region in Germany where the company started.", "A type of fuel that does not damage the environment."], answer: 1 },
+                { q: "What combination of styles makes business professionals choose a BMW?", options: ["It looks incredibly cheap and simple at the same time.", "It looks highly intelligent, professional, and athletic/sporty.", "It looks extremely giant and colorful."], answer: 1 },
+                { q: "What kind of vehicles does BMW produce according to the text?", options: ["Only small city hatchbacks and delivery vans.", "Comfortable family sedans, large SUVs, and fast sports cars.", "Only public buses and heavy military trucks."], answer: 1 },
+                { q: "What does the text imply about someone who 'enjoys spending time on the road'?", options: ["They are a person who loves the pure experience of traveling and driving.", "They are a construction worker who fixes broken streets.", "They are someone who constantly gets stuck in traffic."], answer: 0 },
+                { q: "How does the text describe the sound environment inside a moving BMW?", options: ["Quite loud and intense because of the powerful engine.", "Very quiet, allowing for a focused and relaxed ride.", "Filled with continuous electronic warning alarms."], answer: 1 },
+                { q: "True or False: The letters BMW stand for 'British Motor Works' in English.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The company logo uses the colors blue and white.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: BMW's new electric cars are designed to be calm and boring to save battery power.", options: ["True", "False"], answer: 1 },
+                { q: "True or False: The text states that BMW focuses heavily on high-quality materials and modern tech.", options: ["True", "False"], answer: 0 },
+                { q: "True or False: BMW originally built car engines before moving on to airplane parts.", options: ["True", "False"], answer: 1 }
+            ]
+        }
+    ];
+
+    let currentAudio = new Audio();
+    let isPlaying = false;
+
+    // Build the Main Menu
+    const carList = document.getElementById('car-list');
+    quizData.forEach((car, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'car-btn';
+        btn.innerText = `🎧 ${car.brand} Challenge`;
+        btn.onclick = () => loadQuiz(index);
+        carList.appendChild(btn);
+    });
+
+    function loadQuiz(index) {
+        const currentCar = quizData[index];
+        document.getElementById('home-screen').classList.remove('active');
+        document.getElementById('quiz-screen').classList.add('active');
+        document.getElementById('quiz-title').innerText = currentCar.brand;
+        
+        // Setup Audio
+        currentAudio.src = currentCar.audioUrl;
+        
+        // Build Questions
+        const container = document.getElementById('questions-container');
+        container.innerHTML = ''; 
+
+        currentCar.questions.forEach((q, qIndex) => {
+            const block = document.createElement('div');
+            block.className = 'question-block';
+            
+            const title = document.createElement('div');
+            title.className = 'question-text';
+            title.innerText = `${qIndex + 1}. ${q.q}`;
+            block.appendChild(title);
+
+            q.options.forEach((opt, optIndex) => {
+                const optBtn = document.createElement('button');
+                optBtn.className = 'option-btn';
+                optBtn.innerText = opt;
+                optBtn.onclick = () => checkAnswer(optBtn, block, optIndex, q.answer);
+                block.appendChild(optBtn);
+            });
+
+            container.appendChild(block);
+        });
+    }
+
+    function checkAnswer(btn, block, selectedIndex, correctIndex) {
+        const buttons = block.querySelectorAll('.option-btn');
+        buttons.forEach(b => b.disabled = true); // Lock the question once answered
+
+        if (selectedIndex === correctIndex) {
+            btn.classList.add('selected-correct');
+            btn.innerText = "✅ " + btn.innerText;
+        } else {
+            btn.classList.add('selected-wrong');
+            btn.innerText = "❌ " + btn.innerText;
+            buttons[correctIndex].classList.add('selected-correct'); 
+        }
+    }
+
+    function playAudio() {
+        currentAudio.play().catch(e => alert("Please ensure your audio URL is correct and public on GitHub. Error: " + e.message));
+        isPlaying = true;
+    }
+
+    function stopAudio() {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        isPlaying = false;
+    }
+
+    function goHome() {
+        stopAudio();
+        document.getElementById('quiz-screen').classList.remove('active');
+        document.getElementById('home-screen').classList.add('active');
+    }
+</script>
+
+</body>
+</html>
